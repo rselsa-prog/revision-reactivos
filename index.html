@@ -68,19 +68,14 @@ a{color:#1f4c96}
 <button aria-pressed="false" class="cursor-interaction" data-cell="5,2" style="left:68.32018038331455%;top:18.251928020565554%;width:14.205186020293123%;height:8.611825192802057%;clip-path:polygon(0.00% 44.78%,45.24% 0.00%,100.00% 50.75%,55.56% 100.00%)" type="button"></button>
 <button aria-pressed="false" class="cursor-interaction" data-cell="5,3" style="left:75.76099210822998%;top:24.93573264781491%;width:15.219842164599774%;height:10.025706940874036%;clip-path:polygon(0.00% 44.87%,42.22% 0.00%,100.00% 50.00%,59.26% 100.00%)" type="button"></button>
 </div>
-<p class="text-small">La ilustración original presenta ejemplos de objetivos de aprendizaje. En esta adaptación, cada bloque propone una actividad que el docente puede ajustar a su asignatura.</p>
+<p class="text-small">Selecciona un bloque para identificar la combinación de proceso cognitivo y tipo de conocimiento de la taxonomía revisada.</p>
 <div aria-live="polite" class="card">
 <h3 id="bes-title">Elige un bloque</h3>
-<div hidden="" id="bes-detail">
-<p><strong>Instrucción adaptable</strong><br/><span id="bes-task"></span></p>
-<p><strong>Formato posible</strong><br/><span id="bes-format"></span></p>
-<p><strong>Evidencia observable</strong><br/><span id="bes-evidence"></span></p>
-<details><summary class="cursor-interaction">Adaptar esta idea con IA</summary><label class="form-label" for="bes-prompt">Instrucción para copiar y completar</label><textarea class="form-control" id="bes-prompt" readonly="" rows="5"></textarea></details>
-</div>
+<div hidden="" id="bes-detail"><p id="bes-taxonomy-label"></p></div>
 </div>
 <section aria-label="Programas de Teoría de la Historia" class="card" id="hmex-programas" style="margin-top:18px">
 <h3>Aprendizajes de Teoría de la Historia I y II</h3>
-<p class="text-small">Selecciona una asignatura, una unidad y un aprendizaje. Se recuperará su redacción del programa oficial y una orientación didáctica almacenada. La clasificación es una propuesta de trabajo revisable por el profesorado.</p>
+<p class="text-small">Selecciona una asignatura, una unidad y un aprendizaje. Se recuperará su redacción del programa oficial. La clasificación es una propuesta de trabajo revisable por el profesorado.</p>
 <div aria-label="Seleccionar asignatura" class="hmex-course" role="group"><button aria-pressed="true" class="bes-action" data-hmex-course="I" type="button">Teoría de la Historia I</button><button aria-pressed="false" class="bes-action bes-secondary" data-hmex-course="II" type="button">Teoría de la Historia II</button></div>
 <div class="hmex-fields"><div><label class="form-label" for="hmex-unit">Unidad</label><select class="form-control" id="hmex-unit"></select></div><div><label class="form-label" for="hmex-learning">Aprendizaje del programa</label><select class="form-control" id="hmex-learning"></select></div></div>
 <p aria-live="polite" class="text-small" id="hmex-source"></p>
@@ -138,14 +133,6 @@ D) ..." rows="4"></textarea><label class="form-label" for="exam-key">Respuesta c
 const root=document.getElementById('bloom-es');
 const processes=['Recordar','Comprender','Aplicar','Analizar','Evaluar','Crear'];
 const knowledge=['Metacognitivo','Procedimental','Conceptual','Factual'];
-const examples=[
-[['Recupera una estrategia que usaste en una tarea anterior.','Diario interactivo','Estrategia identificada.'],['Ordena los pasos del procedimiento estudiado.','Secuencia ordenable','Pasos en el orden establecido.'],['Relaciona las categorías estudiadas con su definición.','Tarjetas para relacionar','Correspondencias entre categorías y definiciones.'],['Identifica los términos y los elementos que nombran.','Imagen con etiquetas','Correspondencias entre términos y elementos.']],
-[['Explica por qué una estrategia te ayudó en una parte de la tarea.','Diario interactivo','Relación entre la estrategia y una dificultad concreta.'],['Explica para qué sirve cada paso del procedimiento.','Video con pausas','Función de los pasos explicada.'],['Clasifica casos nuevos y explica un caso dudoso.','Clasificación con justificación','Criterio aplicado al caso dudoso.'],['Explica qué significa el dato en su contexto.','Gráfico con respuesta abierta','Interpretación del dato.']],
-[['Aplica una estrategia de revisión y registra qué cambiaste.','Lista de revisión interactiva','Cambios producidos por la estrategia.'],['Ejecuta el procedimiento en un caso nuevo.','Simulación paso a paso','Pasos ejecutados y resultado.'],['Usa el principio estudiado para predecir el resultado de un caso nuevo.','Simulación','Predicción fundamentada en el principio.'],['Usa los datos de la ficha para completar un registro con una regla dada.','Ficha interactiva','Datos usados correctamente al seguir la regla.']],
-[['Compara dos intentos e identifica qué decisión de estudio cambió tu desempeño.','Bitácora comparativa','Relación entre decisión y resultado.'],['Compara dos ejecuciones e identifica el paso que explica resultados diferentes.','Demostraciones comparables','Paso identificado y vínculo con el resultado.'],['Compara dos explicaciones y señala qué relaciones propone cada una.','Diagrama por capas','Relaciones y diferencias identificadas.'],['Selecciona y agrupa los datos pertinentes para investigar una pregunta.','Clasificación de tarjetas','Grupos de datos justificados por la pregunta.']],
-[['Valora qué estrategia propia te funcionó mejor con evidencias de tus intentos.','Bitácora con criterios','Juicio sobre la eficacia de la estrategia.'],['Elige entre dos métodos y justifica cuál conviene en el caso.','Escenario con decisiones','Criterios empleados para elegir el método.'],['Valora cuál de dos modelos explica mejor un caso.','Escenario con decisiones','Juicio fundamentado sobre los modelos.'],['Valora qué datos de dos fuentes son más confiables y justifica tu selección.','Comparador de fuentes','Juicio apoyado en criterios de confiabilidad.']],
-[['Diseña un plan personal e indica cómo comprobarás si funciona.','Plantilla de planificación','Plan propio y criterios para revisarlo.'],['Diseña un procedimiento adaptado a un caso y ponlo a prueba.','Constructor de secuencias','Procedimiento propuesto y prueba.'],['Construye un modelo que relacione los conceptos y explica cada vínculo.','Editor de mapas conceptuales','Modelo propio con relaciones explicadas.'],['Elabora una ficha original con datos verificados que respondan una pregunta.','Editor de fichas','Ficha que organiza datos pertinentes y conserva sus fuentes.']]
-];
 let audio;
 let selected;
 function clic(){
@@ -168,10 +155,9 @@ for(const button of root.querySelectorAll('button')){
  button.addEventListener('click',()=>{
   clic();
   selected?.setAttribute('aria-pressed','false');selected=button;button.setAttribute('aria-pressed','true');
-  const [task,format,evidence]=examples[i][j];
-  for(const [key,value] of Object.entries({title,task,format,evidence}))root.querySelector('#bes-'+key).textContent=value;
+  root.querySelector('#bes-title').textContent=title;
+  root.querySelector('#bes-taxonomy-label').textContent='Proceso cognitivo: '+processes[i]+'. Tipo de conocimiento: '+knowledge[j]+'.';
   root.querySelector('#bes-detail').hidden=false;
-  root.querySelector('#bes-prompt').value='Adapta esta instrucción a un tema de mi asignatura de bachillerato: [tema]. Trabaja '+title+'. Instrucción: '+task+' Formato posible: '+format+'. Evidencia esperada: '+evidence+' Incluye una forma de retroalimentación.';
  });
 }
 
